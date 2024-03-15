@@ -1,5 +1,8 @@
 package com.victor.example.provider;
 
+import com.victor.vicrpc.registry.LocalRegistry;
+import com.victor.vicrpc.server.VertxHttpServer;
+
 /*
  *Author：Victor_htq
  *Package：com.victor.example.provider
@@ -11,6 +14,10 @@ package com.victor.example.provider;
 public class EasyProviderExample {
 
     public static void main(String[] args) {
-    //     提供服务
+
+        LocalRegistry.register(UserServiceImpl.class.getName(), UserServiceImpl.class);
+    //     提供web服务
+        VertxHttpServer httpServer = new VertxHttpServer();
+        httpServer.doStart(8080);
     }
 }
