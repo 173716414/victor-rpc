@@ -10,7 +10,7 @@ import java.io.*;
  *Date：2024/3/15  10:00
  *Filename：JdkSerialize
  */
-public class JdkSerialize implements Serializer{
+public class JdkSerializer implements Serializer{
     /**
      * 序列化
      *
