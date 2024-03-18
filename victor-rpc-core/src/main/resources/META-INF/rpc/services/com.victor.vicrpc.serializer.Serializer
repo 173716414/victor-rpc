@@ -1,0 +1,4 @@
+jdk=com.victor.vicrpc.serializer.JdkSerializer
+hessian=com.victor.vicrpc.serializer.HessianSerializer
+json=com.victor.vicrpc.serializer.JsonSerializer
+kryo=com.victor.vicrpc.serializer.KryoSerializer
