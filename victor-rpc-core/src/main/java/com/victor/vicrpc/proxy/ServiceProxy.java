@@ -2,10 +2,12 @@ package com.victor.vicrpc.proxy;
 
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.victor.vicrpc.RpcApplication;
 import com.victor.vicrpc.model.RpcRequest;
 import com.victor.vicrpc.model.RpcResponse;
 import com.victor.vicrpc.serializer.JdkSerializer;
 import com.victor.vicrpc.serializer.Serializer;
+import com.victor.vicrpc.serializer.SerializerFactory;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
@@ -23,7 +25,7 @@ public class ServiceProxy implements InvocationHandler {
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         // 指定序列化器
-        Serializer serializer = new JdkSerializer();
+        Serializer serializer = SerializerFactory.getInstance(RpcApplication.getRpcConfig().getSerializer());
 
         RpcRequest rpcRequest = RpcRequest.builder()
                 .serviceName(method.getDeclaringClass().getName())
