@@ -2,6 +2,7 @@ package com.victor.example.consumer;
 
 import com.victor.example.common.model.User;
 import com.victor.example.common.service.UserService;
+import com.victor.vicrpc.proxy.ServiceProxyFactory;
 
 /*
  *Author：Victor_htq
@@ -13,8 +14,8 @@ import com.victor.example.common.service.UserService;
  */
 public class EasyConsumerExample {
     public static void main(String[] args) {
-        // todo 需要获取 UserService的实现类对象
-        UserService userService = new UserServiceProxy();
+
+        UserService userService = ServiceProxyFactory.getProxy(UserService.class);
         User user = new User();
         user.setName("victor");
         // 调用
