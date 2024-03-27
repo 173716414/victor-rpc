@@ -1,7 +1,10 @@
 package com.victor.vicrpc;
 
+import com.victor.vicrpc.config.RegistryConfig;
 import com.victor.vicrpc.config.RpcConfig;
 import com.victor.vicrpc.constant.RpcConstant;
+import com.victor.vicrpc.registry.Registry;
+import com.victor.vicrpc.registry.RegistryFactory;
 import com.victor.vicrpc.utils.ConfigUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,6 +29,11 @@ public class RpcApplication {
     public static void init(RpcConfig newRpcConfig) {
         rpcConfig = newRpcConfig;
         log.info("rpc init, config = {}", newRpcConfig.toString());
+
+        RegistryConfig registryConfig = rpcConfig.getRegistryConfig();
+        Registry registry = RegistryFactory.getInstance(registryConfig.getRegistry());
+        registry.init(registryConfig);
+        log.info("registry init, config = {}", registryConfig);
     }
 
     public static void init() {
