@@ -25,12 +25,12 @@ public class EtcdRegistry implements Registry{
 
     private Client client;
 
-    private KV kvcClient;
+    private KV kvClient;
 
     /**
      * 根节点
      */
-    public static final String ETCD_ROOT_OATH = "/rpc";
+    public static final String ETCD_ROOT_PATH = "/rpc/";
 
     @Override
     public void init(RegistryConfig registryConfig) {
@@ -38,7 +38,7 @@ public class EtcdRegistry implements Registry{
                 .endpoints(registryConfig.getAddress())
                 .connectTimeout(Duration.ofMillis(registryConfig.getTimeout()))
                 .build();
-        kvcClient = client.getKVClient();
+        kvClient = client.getKVClient();
     }
 
     @Override
@@ -47,26 +47,28 @@ public class EtcdRegistry implements Registry{
 
         long leaseId = leaseClient.grant(30).get().getID();
 
-        String registerKey = ETCD_ROOT_OATH + serviceMetaInfo.getServiceNodeKey();
+        String registerKey = ETCD_ROOT_PATH + serviceMetaInfo.getServiceNodeKey();
         ByteSequence key = ByteSequence.from(registerKey, StandardCharsets.UTF_8);
         ByteSequence value = ByteSequence.from(JSONUtil.toJsonStr(serviceMetaInfo), StandardCharsets.UTF_8);
         PutOption putOption = PutOption.builder().withLeaseId(leaseId).build();
-        kvcClient.put(key, value, putOption).get();
+        kvClient.put(key, value, putOption).get();
     }
 
     @Override
     public void unRegister(ServiceMetaInfo serviceMetaInfo) {
-        kvcClient.delete(ByteSequence.from(ETCD_ROOT_OATH +
-                serviceMetaInfo.getServiceNodeKey(), StandardCharsets.UTF_8));
+        String registerKey = ETCD_ROOT_PATH + serviceMetaInfo.getServiceNodeKey();
+        kvClient.delete(ByteSequence.from(registerKey, StandardCharsets.UTF_8));
+        // 也要从本地缓存移除
+        // localRegisterNodeKeySet.remove(registerKey);
     }
 
     @Override
     public List<ServiceMetaInfo> serviceDiscovery(String serviceKey) {
-        String searchPrefix = ETCD_ROOT_OATH + serviceKey + "/";
+        String searchPrefix = ETCD_ROOT_PATH + serviceKey + "/";
 
         GetOption getOption = GetOption.builder().isPrefix(true).build();
         try {
-            List<KeyValue> keyValues = kvcClient.get(
+            List<KeyValue> keyValues = kvClient.get(
                     ByteSequence.from(searchPrefix, StandardCharsets.UTF_8),
                     getOption
             ).get().getKvs();
@@ -84,8 +86,8 @@ public class EtcdRegistry implements Registry{
     @Override
     public void destory() {
         System.out.println("当前节点下线");
-        if (kvcClient != null) {
-            kvcClient.close();
+        if (kvClient != null) {
+            kvClient.close();
         }
         if (client != null) {
             client.close();
