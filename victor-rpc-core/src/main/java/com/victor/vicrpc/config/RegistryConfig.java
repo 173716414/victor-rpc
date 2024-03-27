@@ -1,5 +1,7 @@
 package com.victor.vicrpc.config;
 
+import lombok.Data;
+
 /*
  *Author：Victor_htq
  *Package：com.victor.vicrpc.config
@@ -8,6 +10,7 @@ package com.victor.vicrpc.config;
  *Date：2024/3/27  11:16
  *Filename：RegistryConfig
  */
+@Data
 public class RegistryConfig {
 
     /**
