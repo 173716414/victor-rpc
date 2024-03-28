@@ -19,13 +19,16 @@ public class EasyConsumerExample {
         User user = new User();
         user.setName("victor");
         // 调用
-        User newUser = userService.getUser(user);
-        if (newUser != null) {
-            System.out.println(newUser.getName());
-        } else {
-            System.out.println("user == null");
+        for (int i = 0; i < 3; i++) {
+            User newUser = userService.getUser(user);
+            if (newUser != null) {
+                System.out.println(newUser.getName());
+            } else {
+                System.out.println("user == null");
+            }
+            short number = userService.getNumber();
+            System.out.println(number);
         }
-        short number = userService.getNumber();
-        System.out.println(number);
+
     }
 }
