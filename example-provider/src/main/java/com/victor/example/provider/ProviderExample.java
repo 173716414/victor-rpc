@@ -10,6 +10,7 @@ import com.victor.vicrpc.registry.Registry;
 import com.victor.vicrpc.registry.RegistryFactory;
 import com.victor.vicrpc.server.HttpServer;
 import com.victor.vicrpc.server.VertxHttpServer;
+import com.victor.vicrpc.server.tcp.VertxTcpServer;
 
 /*
  *Author：Victor_htq
@@ -44,8 +45,11 @@ public class ProviderExample {
         }
 
         // 启动 web 服务
-        HttpServer httpServer = new VertxHttpServer();
-        httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
+        // HttpServer httpServer = new VertxHttpServer();
+        // httpServer.doStart(RpcApplication.getRpcConfig().getServerPort());
+        // 启动 TCP 服务
+        VertxTcpServer vertxTcpServer = new VertxTcpServer();
+        vertxTcpServer.doStart(8080);
     }
 }
 
