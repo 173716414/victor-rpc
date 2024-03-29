@@ -11,7 +11,7 @@ import lombok.Getter;
  *Filename：ProtocolMessageTypeEmum
  */
 @Getter
-public enum ProtocolMessageTypeEmum {
+public enum ProtocolMessageTypeEnum {
 
     REQUEST(0),
     RESPONSE(1),
@@ -20,7 +20,7 @@ public enum ProtocolMessageTypeEmum {
 
     private final int key;
 
-    ProtocolMessageTypeEmum(int key) {
+    ProtocolMessageTypeEnum(int key) {
         this.key = key;
     }
 
@@ -29,8 +29,8 @@ public enum ProtocolMessageTypeEmum {
      * @param key key
      * @return enum
      */
-    public static ProtocolMessageTypeEmum getEnumByKey(int key) {
-        for (ProtocolMessageTypeEmum anEnum : ProtocolMessageTypeEmum.values()) {
+    public static ProtocolMessageTypeEnum getEnumByKey(int key) {
+        for (ProtocolMessageTypeEnum anEnum : ProtocolMessageTypeEnum.values()) {
             if (anEnum.key == key) {
                 return anEnum;
             }
