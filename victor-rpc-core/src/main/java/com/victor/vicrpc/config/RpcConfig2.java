@@ -13,9 +13,9 @@ import lombok.Data;
  *Filename：RpcConfig
  */
 @Data
-public class RpcConfig {
+public class RpcConfig2 {
 
-    private String loadBalancer = LoadBalancerKeys.RANDOM;
+    private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
 
     private String name = "vic-rpc";
 
@@ -23,7 +23,7 @@ public class RpcConfig {
 
     private String serverHost = "localhost";
 
-    private Integer serverPort = 8080;
+    private Integer serverPort = 9999;
     /**
      * 模拟调用
      */

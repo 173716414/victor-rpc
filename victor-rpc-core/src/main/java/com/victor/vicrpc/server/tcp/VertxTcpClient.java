@@ -7,6 +7,7 @@ import com.victor.vicrpc.model.RpcResponse;
 import com.victor.vicrpc.model.ServiceMetaInfo;
 import com.victor.vicrpc.protocol.*;
 import io.vertx.core.Vertx;
+import io.vertx.core.VertxOptions;
 import io.vertx.core.buffer.Buffer;
 import io.vertx.core.net.NetClient;
 import io.vertx.core.net.NetSocket;
@@ -14,6 +15,7 @@ import io.vertx.core.net.NetSocket;
 import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /*
  *Author：Victor_htq
@@ -57,8 +59,13 @@ public class VertxTcpClient {
     //     new VertxTcpClient().start();
     // }
     public static RpcResponse doRequest(RpcRequest rpcRequest, ServiceMetaInfo serviceMetaInfo) throws InterruptedException, ExecutionException {
-        // 发送 TCP 请求
-        Vertx vertx = Vertx.vertx();
+        // // 发送 TCP 请求
+        VertxOptions options = new VertxOptions();
+        //
+        // // 设置阻塞时间为5000毫秒（5秒）
+        options.setMaxEventLoopExecuteTime(10000);
+        options.setMaxEventLoopExecuteTimeUnit(TimeUnit.MILLISECONDS);
+        Vertx vertx = Vertx.vertx(options);
         NetClient netClient = vertx.createNetClient();
         CompletableFuture<RpcResponse> responseFuture = new CompletableFuture<>();
         netClient.connect(serviceMetaInfo.getServicePort(), serviceMetaInfo.getServiceHost(),

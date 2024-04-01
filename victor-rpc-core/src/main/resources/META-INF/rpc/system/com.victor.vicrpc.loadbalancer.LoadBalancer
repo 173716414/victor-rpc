@@ -1,3 +1,3 @@
-roundRobin=com.victor.vicrpc.loadblancer.RoundRobinLoadBalancer
-random=com.victor.vicrpc.loadblancer.RandomLoadBalancer
-consistentHash=com.victor.vicrpc.loadblancer.ConsistentHashLoadBalancer
+roundRobin=com.victor.vicrpc.loadbalancer.RoundRobinLoadBalancer
+random=com.victor.vicrpc.loadbalancer.RandomLoadBalancer
+consistentHash=com.victor.vicrpc.loadbalancer.ConsistentHashLoadBalancer
