@@ -7,6 +7,8 @@ import cn.hutool.http.HttpResponse;
 import com.victor.vicrpc.RpcApplication;
 import com.victor.vicrpc.config.RpcConfig;
 import com.victor.vicrpc.constant.RpcConstant;
+import com.victor.vicrpc.loadbalancer.LoadBalancer;
+import com.victor.vicrpc.loadbalancer.LoadBalancerFactory;
 import com.victor.vicrpc.model.RpcRequest;
 import com.victor.vicrpc.model.RpcResponse;
 import com.victor.vicrpc.model.ServiceMetaInfo;
@@ -24,6 +26,7 @@ import io.vertx.core.net.NetSocket;
 import java.io.IOException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -82,7 +85,14 @@ public class ServiceProxy implements InvocationHandler {
             if (CollUtil.isEmpty(serviceMetaInfoList)) {
                 throw new RuntimeException("暂无服务地址");
             }
-            ServiceMetaInfo selectedServiceMetaInfo = serviceMetaInfoList.get(0);
+
+            // 负载均衡
+            LoadBalancer loadBalancer = LoadBalancerFactory.getInstance(rpcConfig.getLoadBalancer());
+            // 将调用方法名（请求路径）作为负载均衡参数
+            HashMap<String, Object> requestParams = new HashMap<>();
+            requestParams.put("methodName", rpcRequest.getMethodName());
+            ServiceMetaInfo selectedServiceMetaInfo = loadBalancer.select(requestParams, serviceMetaInfoList);
+
 
             //     发送请求
             //     try (HttpResponse httpResponse = HttpRequest.post(selectedServiceMetaInfo.getServiceAddress())

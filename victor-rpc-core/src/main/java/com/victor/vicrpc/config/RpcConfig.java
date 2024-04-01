@@ -1,5 +1,6 @@
 package com.victor.vicrpc.config;
 
+import com.victor.vicrpc.loadbalancer.LoadBalancerKeys;
 import com.victor.vicrpc.serializer.SerializerKeys;
 import lombok.Data;
 
@@ -13,6 +14,8 @@ import lombok.Data;
  */
 @Data
 public class RpcConfig {
+
+    private String loadBalancer = LoadBalancerKeys.ROUND_ROBIN;
 
     private String name = "vic-rpc";
 
