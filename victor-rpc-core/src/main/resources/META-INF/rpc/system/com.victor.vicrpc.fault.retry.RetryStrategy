@@ -1,0 +1,2 @@
+no=com.victor.vicrpc.fault.retry.NoRetryStrategy
+fixedInterval=com.victor.vicrpc.fault.retry.FixedIntervalRetryStrategy
